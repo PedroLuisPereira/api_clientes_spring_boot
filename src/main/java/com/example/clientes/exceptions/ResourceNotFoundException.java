@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseBody //La primera anotación @ResponseBody indica que esta excepción, al lanzarse desde algún
+//@ResponseBody //La primera anotación @ResponseBody indica que esta excepción, al lanzarse desde algún
 //controlador, formará parte del cuerpo de respuesta de la petición.
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException{

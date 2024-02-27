@@ -1,6 +1,6 @@
 package com.example.clientes.controller;
 
-import com.example.clientes.domain.Cliente;
+import com.example.clientes.domain.Client;
 import com.example.clientes.exceptions.BadRequestException;
 import com.example.clientes.exceptions.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +16,16 @@ import java.util.List;
 @RequestMapping("/clientes")
 public class ClienteRestController {
 
-    private List<Cliente> clientes = new ArrayList<>(Arrays.asList(
-            new Cliente("juan", "123", "Juan"),
-            new Cliente("ana", "123", "Ana"),
-            new Cliente("maria", "123", "Maria")
+    private List<Client> clients = new ArrayList<>(Arrays.asList(
+            new Client(1,"juan", "123", "Juan"),
+            new Client(2,"ana", "123", "Ana"),
+            new Client(3,"maria", "123", "Maria")
     ));
 
 
     @GetMapping()
     public ResponseEntity<?> getClientes() {
-        return ResponseEntity.ok(clientes);
+        return ResponseEntity.ok(clients);
     }
 
     @GetMapping("/{userName}")
@@ -35,8 +35,8 @@ public class ClienteRestController {
             throw new BadRequestException("Error en el usarName");
         }
 
-        return ResponseEntity.ok(clientes.stream()
-                .filter(cliente -> cliente.getUsername().equalsIgnoreCase(userName))
+        return ResponseEntity.ok(clients.stream()
+                .filter(client -> client.getUsername().equalsIgnoreCase(userName))
                 .findFirst()
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no econtrado")));
@@ -46,43 +46,43 @@ public class ClienteRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> setCliente(@RequestBody Cliente cliente) {
-        clientes.add(cliente);
+    public ResponseEntity<?> setCliente(@RequestBody Client client) {
+        clients.add(client);
 
         //Otener URL de servicio
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{userName}")
-                .buildAndExpand(cliente.getUsername())
+                .buildAndExpand(client.getUsername())
                 .toUri();
 
-        return ResponseEntity.created(location).body(cliente);
+        return ResponseEntity.created(location).body(client);
     }
 
     @PutMapping("/{userName}")
-    public ResponseEntity<?> setCliente(@PathVariable String userName, @RequestBody Cliente cliente) {
+    public ResponseEntity<?> setCliente(@PathVariable String userName, @RequestBody Client client) {
 
-        Cliente clienteEncontrado = clientes.stream()
+        Client clientEncontrado = clients.stream()
                 .filter(c -> c.getUsername().equalsIgnoreCase(userName))
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente no econtrado"));
 
 
-        clienteEncontrado.setPassword(cliente.getPassword());
-        clienteEncontrado.setNombre(cliente.getNombre());
+        clientEncontrado.setPassword(client.getPassword());
+        clientEncontrado.setNombre(client.getNombre());
 
-        return ResponseEntity.ok(clienteEncontrado);
+        return ResponseEntity.ok(clientEncontrado);
     }
 
     @DeleteMapping("/{userName}")
     public ResponseEntity<?> deleteCliente(@PathVariable String userName) {
 
-        Cliente clienteEncontrado = clientes.stream()
+        Client clientEncontrado = clients.stream()
                 .filter(c -> c.getUsername().equalsIgnoreCase(userName))
                 .findFirst()
                 .orElseThrow();
 
-        clientes.remove(clienteEncontrado);
+        clients.remove(clientEncontrado);
 
         return ResponseEntity.noContent().build();
     }
