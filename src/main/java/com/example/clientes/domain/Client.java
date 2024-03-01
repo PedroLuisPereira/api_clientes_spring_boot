@@ -16,10 +16,10 @@ public class Client {
     @Id
     @GeneratedValue
     private int id;
+    private String name;
     @Column(unique=true)
     private String username;
     private String password;
-    private String nombre;
 
 
 }

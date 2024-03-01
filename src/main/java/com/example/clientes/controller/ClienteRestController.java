@@ -69,7 +69,7 @@ public class ClienteRestController {
 
 
         clientEncontrado.setPassword(client.getPassword());
-        clientEncontrado.setNombre(client.getNombre());
+        clientEncontrado.setName(client.getName());
 
         return ResponseEntity.ok(clientEncontrado);
     }

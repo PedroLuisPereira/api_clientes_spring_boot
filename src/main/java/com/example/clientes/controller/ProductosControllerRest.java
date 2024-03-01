@@ -3,7 +3,6 @@ package com.example.clientes.controller;
 import com.example.clientes.configurations.ConfigurationParameters;
 import com.example.clientes.domain.Producto;
 import com.example.clientes.service.ProductoService;
-import com.example.clientes.service.ProductoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
