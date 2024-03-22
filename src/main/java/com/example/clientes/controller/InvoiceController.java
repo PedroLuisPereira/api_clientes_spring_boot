@@ -2,48 +2,50 @@ package com.example.clientes.controller;
 
 
 import com.example.clientes.domain.Client;
-import com.example.clientes.dto.ClientDto;
-import com.example.clientes.service.ClientService;
-import jakarta.validation.Valid;
+import com.example.clientes.domain.Invoice;
+import com.example.clientes.dto.InvoiceCreateDto;
+import com.example.clientes.dto.InvoiceDto;
+import com.example.clientes.service.InvoiceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/clients")
+@RequestMapping("api/invoices")
 @CrossOrigin(origins = "http://localhost:4200")
-public class ClientController {
+public class InvoiceController {
 
     @Autowired
-    private ClientService service;
+    private InvoiceService invoiceService;
 
     @GetMapping
-    public List<Client> listAll() {
-        return service.listAll();
+    public List<Invoice> listAll() {
+        return invoiceService.listAll();
     }
 
     @GetMapping("/{id}")
-    public ClientDto listById(@PathVariable int id) {
-        return service.listById(id);
+    public InvoiceDto listById(@PathVariable int id) {
+        return invoiceService.listById(id) ;
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Client create(@Valid @RequestBody Client client) {
-        return service.create(client);
+    public Invoice create(@RequestBody InvoiceCreateDto invoice) {
+        return invoiceService.create(invoice);
     }
 
     @PutMapping("/{id}")
     public Client update(@PathVariable int id, @RequestBody Client client) {
-        return service.update(id, client);
+        client.setId(id);
+        return null;
     }
 
-    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
-        service.delete(id);
+        
     }
 }
