@@ -8,13 +8,22 @@ import com.example.clientes.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 
 @Service
 public class ClientServiceImpl implements ClientService {
+
+    private final ClientRepository repository;
+
+    private static final String REGISTRO_NO_ENCONTRADO = "Registro no econtrado";
+    private static final String USUARIO_EXISTE = "Username ya existe";
+
     @Autowired
-    private ClientRepository repository;
+    public ClientServiceImpl(ClientRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<Client> listAll() {
@@ -24,7 +33,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto listById(int id) {
 
-        Client client = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Registro no econtrado"));
+        Client client = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
         return ClientDto.builder()
                 .id(id)
@@ -39,7 +48,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client listByEmail(String email) {
         return repository.findByEmail(email).stream().findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no econtrado"));
+                .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
     }
 
     @Override
@@ -47,11 +56,10 @@ public class ClientServiceImpl implements ClientService {
     public Client create(Client client) {
 
 
-
         List<Client> clients = repository.findByEmail(client.getEmail());
 
         if (!clients.isEmpty()) {
-            throw new BadRequestException("Username ya existe");
+            throw new BadRequestException(USUARIO_EXISTE);
         }
 
         return repository.save(client);
@@ -62,12 +70,12 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public Client update(int id, Client client) {
 
-        Client clientOld = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Registro no econtrado"));
+        Client clientOld = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
         List<Client> clients = repository.findByEmail(client.getEmail());
 
-        if (!clients.isEmpty() && client.getId() != clients.stream().findFirst().get().getId()) {
-            throw new BadRequestException("Username ya existe");
+        if (!clients.isEmpty() && client.getId() != clients.get(0).getId()) {
+            throw new BadRequestException(USUARIO_EXISTE);
         }
 
         clientOld.setName(client.getName());

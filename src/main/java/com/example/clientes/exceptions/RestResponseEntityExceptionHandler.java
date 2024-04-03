@@ -1,4 +1,4 @@
-package com.example.clientes.ejemplo;
+package com.example.clientes.exceptions;
 
 import com.example.clientes.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;

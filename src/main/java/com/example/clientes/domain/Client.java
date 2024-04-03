@@ -1,5 +1,6 @@
 package com.example.clientes.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import lombok.*;
 @Table(name = "clients")
 public class Client implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -40,7 +42,7 @@ public class Client implements Serializable {
     /**
      * Relacion con facturas
      */
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     @JsonIgnore
@@ -50,17 +52,10 @@ public class Client implements Serializable {
         invoices = new ArrayList<>();
     }
 
-    /**
-     * Relacion con facturas
-     */
-    // @JsonIgnoreProperties(value={"client", "hibernateLazyInitializer",
-    // "handler"}, allowSetters=true)
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade =
-    // CascadeType.ALL)
-    // private List<Invoice> invoices;
-
-    // public Client() {
-    // this.invoices = new ArrayList<>();
-    // }
-
+    public Client(int id, String name, String email, String address) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
 }

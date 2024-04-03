@@ -21,7 +21,7 @@ public class InvoiceController {
     private final InvoiceService invoiceService;
 
     @Autowired
-    public InvoiceController(InvoiceService invoiceService){
+    public InvoiceController(InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
     }
 
@@ -32,7 +32,7 @@ public class InvoiceController {
 
     @GetMapping("/{id}")
     public InvoiceDto listById(@PathVariable int id) {
-        return invoiceService.listById(id) ;
+        return invoiceService.listById(id);
     }
 
     @PostMapping()
@@ -41,15 +41,4 @@ public class InvoiceController {
         return invoiceService.create(invoice);
     }
 
-    @PutMapping("/{id}")
-    public Client update(@PathVariable int id, @RequestBody Client client) {
-        client.setId(id);
-        return null;
-    }
-
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @DeleteMapping("/{id}")
-//    public void delete(@PathVariable int id) {
-//        //TODO terminar
-//    }
 }

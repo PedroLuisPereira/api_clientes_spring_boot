@@ -1,5 +1,6 @@
 package com.example.clientes.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-//import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -37,7 +37,8 @@ import lombok.ToString;
 @Table(name = "invoices")
 public class Invoice implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @Serial
+	private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,24 +68,4 @@ public class Invoice implements Serializable {
 		items = new ArrayList<>();
 	}
 
-    /**
-     * Para guardar fecha al crear factura
-     */
-	// @PrePersist
-	// public void prePersist() {
-	// 	this.createAt = new Date();
-	// }
-
-    /**
-     * Calcular el total de la factura
-     * @return
-     */
-    // public Double getTotal() {
-	// 	Double total = 0.00;
-	// 	for (Item item : items) {
-	// 		total += item.getImporte();
-	// 	}
-	// 	return total;
-	// }
-    
 }

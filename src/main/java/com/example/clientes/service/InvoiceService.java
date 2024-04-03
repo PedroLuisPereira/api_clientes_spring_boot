@@ -12,13 +12,7 @@ public interface InvoiceService {
 
     InvoiceDto listById(int id);
 
-    Invoice listByEmail(String email);
-
     Invoice create(InvoiceCreateDto invoice);
-
-    Invoice update(Invoice invoice);
-
-    void delete(int id);
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.clientes.dto;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import lombok.ToString;
 @Builder
 public class InvoiceDto implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;

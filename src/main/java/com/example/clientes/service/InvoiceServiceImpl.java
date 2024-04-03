@@ -21,14 +21,20 @@ import java.util.List;
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
-    @Autowired
-    private InvoiceRepository invoiceRepository;
+    private final InvoiceRepository invoiceRepository;
+
+    private final ClientRepository clientRepository;
+
+    private final ProductRepository productRepository;
+
+    private static final String REGISTRO_NO_ENCONTRADO = "Registro no econtrado";
 
     @Autowired
-    private ClientRepository clientRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    public InvoiceServiceImpl(InvoiceRepository invoiceRepository, ClientRepository clientRepository, ProductRepository productRepository  ){
+        this.invoiceRepository = invoiceRepository;
+        this.clientRepository = clientRepository;
+        this.productRepository = productRepository;
+    }
 
     @Override
     public List<Invoice> listAll() {
@@ -38,7 +44,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public InvoiceDto listById(int id) {
         Invoice factura = invoiceRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no econtrado"));
+                .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
         return InvoiceDto.builder()
                 .id(factura.getId())
@@ -51,22 +57,16 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Invoice listByEmail(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listByEmail'");
-    }
-
-    @Override
     public Invoice create(InvoiceCreateDto invoice) {
 
         List<Item> listItems = new ArrayList<Item>();
 
         Client cliente = clientRepository.findById(invoice.getClientId())
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no econtrado"));
+                .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
         double total = invoice.getItems().stream().mapToDouble(item -> {
             Product producto = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Registro no econtrado"));
+                    .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
             Item itemNuevo = Item.builder()
                     .units(item.getUnits())
@@ -90,16 +90,5 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     }
 
-    @Override
-    public Invoice update(Invoice invoice) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public void delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
 
 }
