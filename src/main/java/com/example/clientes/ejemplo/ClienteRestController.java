@@ -21,7 +21,7 @@ public class ClienteRestController {
     //         new Client(3,"maria", "123", "Maria")
     // ));
 
-    private List<Client> clients = new ArrayList<>();
+    private final List<Client> clients = new ArrayList<>();
 
 
     @GetMapping()

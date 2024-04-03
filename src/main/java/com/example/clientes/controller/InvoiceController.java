@@ -18,8 +18,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class InvoiceController {
 
+    private final InvoiceService invoiceService;
+
     @Autowired
-    private InvoiceService invoiceService;
+    public InvoiceController(InvoiceService invoiceService){
+        this.invoiceService = invoiceService;
+    }
 
     @GetMapping
     public List<Invoice> listAll() {
@@ -43,9 +47,9 @@ public class InvoiceController {
         return null;
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) {
-        
-    }
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @DeleteMapping("/{id}")
+//    public void delete(@PathVariable int id) {
+//        //TODO terminar
+//    }
 }

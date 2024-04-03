@@ -6,14 +6,10 @@ import com.example.clientes.exceptions.BadRequestException;
 import com.example.clientes.exceptions.ResourceNotFoundException;
 import com.example.clientes.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-
-import java.net.ConnectException;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class ClientServiceImpl implements ClientService {
