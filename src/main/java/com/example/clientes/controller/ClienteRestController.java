@@ -12,9 +12,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
-@RequestMapping("/clientes-pruebas")
+@RequestMapping("clientes/")
 public class ClienteRestController {
+    private static final Logger logger = LoggerFactory.getLogger(ClienteRestController.class);
 
     private List<Client> clients = new ArrayList<>(Arrays.asList(
             new Client(1, "juan", "123", "Juan"),
@@ -22,12 +26,22 @@ public class ClienteRestController {
             new Client(3, "maria", "123", "Maria")
     ));
 
+    @RequestMapping("/log/logapi")
+    public String logMethod() {
+        logger.info("Hello from Spring Boot Logging Application.");
+        logger.info("This is sample info message");
+        logger.warn("This is sample warn message");
+        logger.error("This is sample error message");
+
+        return "Hello Simplifying Tech";
+    }
+
     @GetMapping()
     public ResponseEntity<List<Client>> getClientes() {
         return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("/{userName}")
+    @GetMapping("{userName}")
     public ResponseEntity<Client> getCliente(@PathVariable String userName) {
 
         if (userName.length() != 3) {
@@ -55,7 +69,7 @@ public class ClienteRestController {
         return ResponseEntity.created(location).body(client);
     }
 
-    @PutMapping("/{userName}")
+    @PutMapping("{userName}")
     public ResponseEntity<Client> setCliente(@PathVariable String userName, @RequestBody Client client) {
 
         Client clientEncontrado = clients.stream()
@@ -66,7 +80,7 @@ public class ClienteRestController {
         return ResponseEntity.ok(clientEncontrado);
     }
 
-    @DeleteMapping("/{userName}")
+    @DeleteMapping("{userName}")
     public ResponseEntity<Client> deleteCliente(@PathVariable String userName) {
 
         Client clientEncontrado = clients.stream()
