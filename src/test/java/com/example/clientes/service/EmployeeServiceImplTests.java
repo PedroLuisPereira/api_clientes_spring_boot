@@ -1,5 +1,6 @@
 package com.example.clientes.service;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.clientes.domain.Employee;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-class EmployeeServiceTests {
+class EmployeeServiceImplTests {
 
     @Mock
     private EmployeeRepository employeeRepository;
