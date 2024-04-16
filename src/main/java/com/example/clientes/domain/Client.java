@@ -17,6 +17,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@Builder
 @Entity
 @Table(name = "clients")
 public class Client implements Serializable {
