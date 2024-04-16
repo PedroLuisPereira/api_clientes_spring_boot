@@ -4,7 +4,6 @@ package com.example.clientes.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 @Setter
 @Getter
