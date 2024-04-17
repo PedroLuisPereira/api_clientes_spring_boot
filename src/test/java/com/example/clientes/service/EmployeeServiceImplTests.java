@@ -111,9 +111,9 @@ class EmployeeServiceImplTests {
 
         Mockito.when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        ResourceNotFoundException thrown = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            employeeService.getEmployeeById(anyLong());
-        });
+        ResourceNotFoundException thrown = Assertions.assertThrows(ResourceNotFoundException.class, () ->
+            employeeService.getEmployeeById(anyLong())
+        );
 
         Assertions.assertEquals(REGISTRO_NO_ENCONTRADO, thrown.getMessage());
         Mockito.verify(employeeRepository, times(1)).findById(anyLong());
@@ -144,9 +144,9 @@ class EmployeeServiceImplTests {
         Mockito.when(employeeRepository.findByEmail(employee.getEmail())).thenReturn(Optional.of(employee));
 
         // when -  action or the behaviour that we are going test
-        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () -> {
-            employeeService.saveEmployee(employee);
-        });
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () ->
+            employeeService.saveEmployee(employee)
+        );
 
         // then
         Assertions.assertEquals(EMAIL_YA_EXISTE, thrown.getMessage());
@@ -197,9 +197,9 @@ class EmployeeServiceImplTests {
         Mockito.when(employeeRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // when -  action or the behaviour that we are going test
-        ResourceNotFoundException thrown = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            employeeService.updateEmployee(1L, updateEmployee);
-        });
+        ResourceNotFoundException thrown = Assertions.assertThrows(ResourceNotFoundException.class, () ->
+            employeeService.updateEmployee(1L, updateEmployee)
+        );
 
         // then
         Assertions.assertEquals(REGISTRO_NO_ENCONTRADO, thrown.getMessage());
@@ -231,9 +231,9 @@ class EmployeeServiceImplTests {
         Mockito.when(employeeRepository.findByEmail(anyString())).thenReturn(Optional.of(oterEmployee));
 
         // when -  action or the behaviour that we are going test
-        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () -> {
-            employeeService.updateEmployee(1L, updateEmployee);
-        });
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () ->
+            employeeService.updateEmployee(1L, updateEmployee)
+        );
 
         // then
         Assertions.assertEquals(EMAIL_YA_EXISTE, thrown.getMessage());
