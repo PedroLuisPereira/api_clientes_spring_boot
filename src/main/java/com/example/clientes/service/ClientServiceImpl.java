@@ -1,6 +1,7 @@
 package com.example.clientes.service;
 
 import com.example.clientes.domain.Client;
+import com.example.clientes.dto.ClientCreateDto;
 import com.example.clientes.dto.ClientDto;
 import com.example.clientes.exceptions.BadRequestException;
 import com.example.clientes.exceptions.ResourceNotFoundException;
@@ -18,7 +19,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
 
     private static final String REGISTRO_NO_ENCONTRADO = "Registro no econtrado";
-    private static final String USUARIO_EXISTE = "Username ya existe";
+    private static final String CLIENT_EXISTE = "Cliente ya existe";
 
     @Autowired
     public ClientServiceImpl(ClientRepository repository) {
@@ -53,29 +54,33 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public Client create(Client client) {
+    public Client create(ClientCreateDto client) {
 
 
         List<Client> clients = repository.findByEmail(client.getEmail());
 
         if (!clients.isEmpty()) {
-            throw new BadRequestException(USUARIO_EXISTE);
+            throw new BadRequestException(CLIENT_EXISTE);
         }
 
-        return repository.save(client);
+        return repository.save(Client.builder()
+                .name(client.getName())
+                .email(client.getEmail())
+                .address(client.getAddress())
+                .build());
 
     }
 
     @Override
     @Transactional
-    public Client update(int id, Client client) {
+    public Client update(int id, ClientCreateDto client) {
 
         Client clientOld = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
         List<Client> clients = repository.findByEmail(client.getEmail());
 
-        if (!clients.isEmpty() && client.getId() != clients.get(0).getId()) {
-            throw new BadRequestException(USUARIO_EXISTE);
+        if (!clients.isEmpty() && id != clients.get(0).getId()) {
+            throw new BadRequestException(CLIENT_EXISTE);
         }
 
         clientOld.setName(client.getName());

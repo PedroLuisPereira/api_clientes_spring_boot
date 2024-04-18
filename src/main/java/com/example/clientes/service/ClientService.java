@@ -1,6 +1,7 @@
 package com.example.clientes.service;
 
 import com.example.clientes.domain.Client;
+import com.example.clientes.dto.ClientCreateDto;
 import com.example.clientes.dto.ClientDto;
 import org.springframework.validation.BindingResult;
 
@@ -14,9 +15,9 @@ public interface ClientService {
 
     Client listByEmail(String email);
 
-    Client create(Client client);
+    Client create(ClientCreateDto client);
 
-    Client update(int id, Client client);
+    Client update(int id, ClientCreateDto client);
 
     void delete(int id);
 

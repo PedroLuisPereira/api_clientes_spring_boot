@@ -2,6 +2,7 @@ package com.example.clientes.controller;
 
 
 import com.example.clientes.domain.Client;
+import com.example.clientes.dto.ClientCreateDto;
 import com.example.clientes.dto.ClientDto;
 import com.example.clientes.service.ClientService;
 import jakarta.validation.Valid;
@@ -35,12 +36,12 @@ public class ClientController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Client create(@Valid @RequestBody Client client) {
+    public Client create(@Valid @RequestBody ClientCreateDto client) {
         return service.create(client);
     }
 
     @PutMapping("/{id}")
-    public Client update(@PathVariable int id, @RequestBody Client client) {
+    public Client update(@PathVariable int id, @Valid @RequestBody ClientCreateDto client) {
         return service.update(id, client);
     }
 
