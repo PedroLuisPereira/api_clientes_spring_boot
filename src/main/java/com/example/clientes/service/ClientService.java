@@ -3,8 +3,6 @@ package com.example.clientes.service;
 import com.example.clientes.domain.Client;
 import com.example.clientes.dto.ClientCreateDto;
 import com.example.clientes.dto.ClientDto;
-import org.springframework.validation.BindingResult;
-
 import java.util.List;
 
 public interface ClientService {

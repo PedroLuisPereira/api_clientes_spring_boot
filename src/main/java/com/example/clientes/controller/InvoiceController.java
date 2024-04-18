@@ -1,7 +1,6 @@
 package com.example.clientes.controller;
 
 
-import com.example.clientes.domain.Client;
 import com.example.clientes.domain.Invoice;
 import com.example.clientes.dto.InvoiceCreateDto;
 import com.example.clientes.dto.InvoiceDto;

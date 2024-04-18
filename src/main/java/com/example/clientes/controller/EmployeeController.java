@@ -3,7 +3,6 @@ package com.example.clientes.controller;
 import com.example.clientes.domain.Employee;
 import com.example.clientes.service.EmployeeService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
