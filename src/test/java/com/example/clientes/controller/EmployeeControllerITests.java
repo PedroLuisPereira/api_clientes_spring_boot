@@ -192,7 +192,7 @@ class EmployeeControllerITests {
 
     // JUnit test for delete employee REST API
     @Test
-    void givenEmployeeId_whenDeleteEmployee_thenReturn200() throws Exception {
+    void givenEmployeeId_whenDeleteEmployee_thenReturn204() throws Exception {
         // given - precondition or setup
         Employee savedEmployee = Employee.builder()
                 .firstName("Ramesh")

@@ -18,6 +18,9 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("clientes/")
 public class ClienteRestController {
+
+    /**
+     *
     private static final Logger logger = LoggerFactory.getLogger(ClienteRestController.class);
 
     private List<Client> clients = new ArrayList<>(Arrays.asList(
@@ -92,4 +95,6 @@ public class ClienteRestController {
 
         return ResponseEntity.noContent().build();
     }
+
+    */
 }
