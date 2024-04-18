@@ -7,6 +7,7 @@ import com.example.clientes.dto.InvoiceCreateDto;
 import com.example.clientes.dto.InvoiceDto;
 import com.example.clientes.service.InvoiceService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class InvoiceController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Invoice create(@RequestBody InvoiceCreateDto invoice) {
+    public Invoice create(@Valid @RequestBody InvoiceCreateDto invoice) {
         return invoiceService.create(invoice);
     }
 

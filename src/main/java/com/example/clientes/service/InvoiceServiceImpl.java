@@ -6,6 +6,7 @@ import com.example.clientes.domain.Item;
 import com.example.clientes.domain.Product;
 import com.example.clientes.dto.InvoiceCreateDto;
 import com.example.clientes.dto.InvoiceDto;
+import com.example.clientes.exceptions.BadRequestException;
 import com.example.clientes.exceptions.ResourceNotFoundException;
 import com.example.clientes.repository.ClientRepository;
 import com.example.clientes.repository.InvoiceRepository;
@@ -59,26 +60,46 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public Invoice create(InvoiceCreateDto invoice) {
 
-        List<Item> listItems = new ArrayList<Item>();
+        List<Item> listItems = new ArrayList<>();
 
+        if(invoice.getItems().isEmpty()){
+            throw new BadRequestException("Deben existir item");
+        }
+
+        //validar si existe el cliente
         Client cliente = clientRepository.findById(invoice.getClientId())
                 .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
+        //validar cada item
         double total = invoice.getItems().stream().mapToDouble(item -> {
+
+            if(item.getUnits() <= 0 ){
+                throw new BadRequestException("El valor de units debe ser mayor que cero");
+            }
+
+            if(item.getProductId() <= 0 ){
+                throw new BadRequestException("El valor de productId debe ser mayor que cero");
+            }
+
+            //buscar cada producto
             Product producto = productRepository.findById(item.getProductId())
                     .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
 
+            //crear un item con el producto
             Item itemNuevo = Item.builder()
                     .units(item.getUnits())
                     .product(producto)
                     .subTotal(item.getUnits() * producto.getPrice())
                     .build();
 
+            //agragar cada item
             listItems.add(itemNuevo);
 
+            //retornar el total del item
             return item.getUnits() * producto.getPrice();
-        }).sum();
+        }).sum(); // sumar todos los item
 
+        //guardar cada factura
         return invoiceRepository.save(
                 Invoice.builder()
                         .description(invoice.getDescription())
