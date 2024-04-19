@@ -19,6 +19,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
 
     private static final String REGISTRO_NO_ENCONTRADO = "Registro no econtrado";
+
     private static final String CLIENT_EXISTE = "Cliente ya existe";
 
     @Autowired

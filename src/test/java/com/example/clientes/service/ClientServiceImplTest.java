@@ -4,6 +4,8 @@ import com.example.clientes.domain.Client;
 import com.example.clientes.domain.Employee;
 import com.example.clientes.dto.ClientCreateDto;
 import com.example.clientes.dto.ClientDto;
+import com.example.clientes.exceptions.BadRequestException;
+import com.example.clientes.exceptions.ResourceNotFoundException;
 import com.example.clientes.repository.ClientRepository;
 import com.example.clientes.repository.EmployeeRepository;
 import org.junit.jupiter.api.Assertions;
@@ -15,16 +17,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ClientServiceImplTest {
@@ -54,7 +53,7 @@ class ClientServiceImplTest {
     @Test
     void listAll() {
         Client client2 = Client.builder()
-                .id(1)
+                .id(2)
                 .name("Ramesh2")
                 .email("ramesh2@gmail.com")
                 .address("Calle 20 #96-96")
@@ -118,6 +117,27 @@ class ClientServiceImplTest {
     }
 
     @Test
+    void createClienteExiste() {
+
+        // given - precondition or setup
+        ClientCreateDto clientCreateDto = ClientCreateDto.builder()
+                .name("Ramesh")
+                .email("ramesh@gmail.com")
+                .address("Calle 20 #96-96")
+                .build();
+        Mockito.when(clientRepository.findByEmail(anyString())).thenReturn(Collections.singletonList(client));
+
+        // when -  action or the behaviour that we are going test
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () ->
+                clientService.create(clientCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals(CLIENT_EXISTE, thrown.getMessage());
+        Mockito.verify(clientRepository, times(1)).findByEmail(anyString());
+    }
+
+    @Test
     void update() {
 
         // given - precondition or setup
@@ -137,6 +157,59 @@ class ClientServiceImplTest {
         // then - verify the output
         Assertions.assertNotNull(clientUpdate);
         Assertions.assertEquals("ramesh@gmail.com", clientUpdate.getEmail());
+    }
+
+    @Test
+    void updateClienteNoExiste() {
+
+        // given - precondition or setup
+        ClientCreateDto clientCreateDto = ClientCreateDto.builder()
+                .name("Ramesh")
+                .email("ramesh@gmail.com")
+                .address("Calle 20 #96-96")
+                .build();
+
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        // when -  action or the behaviour that we are going test
+        ResourceNotFoundException thrown = Assertions.assertThrows(ResourceNotFoundException.class, () ->
+                clientService.update(1, clientCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals(REGISTRO_NO_ENCONTRADO, thrown.getMessage());
+        Mockito.verify(clientRepository, times(1)).findById(anyInt());
+    }
+
+    @Test
+    void updateEmailYaExiste() {
+
+        // given - precondition or setup
+        ClientCreateDto clientCreateDto = ClientCreateDto.builder()
+                .name("Ramesh")
+                .email("ramesh@gmail.com")
+                .address("Calle 20 #96-96")
+                .build();
+
+        Client client2 = Client.builder()
+                .id(2)
+                .name("Ramesh2")
+                .email("ramesh2@gmail.com")
+                .address("Calle 20 #96-96")
+                .build();
+
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(Optional.of(client));
+        Mockito.when(clientRepository.findByEmail(anyString())).thenReturn(Collections.singletonList(client2));
+
+        // when -  action or the behaviour that we are going test
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () ->
+                clientService.update(1, clientCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals(CLIENT_EXISTE, thrown.getMessage());
+        Mockito.verify(clientRepository, times(1)).findById(anyInt());
+        Mockito.verify(clientRepository, times(1)).findByEmail(anyString());
     }
 
     @Test
