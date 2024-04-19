@@ -28,7 +28,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private final ProductRepository productRepository;
 
-    private static final String REGISTRO_NO_ENCONTRADO = "Registro no econtrado";
+    private static final String PRODUCTO_NO_ENCONTRADO = "Producto no econtrado";
+
+    private static final String CLIENTE_NO_ENCONTRADO = "Cliente no econtrado";
 
     @Autowired
     public InvoiceServiceImpl(InvoiceRepository invoiceRepository, ClientRepository clientRepository, ProductRepository productRepository  ){
@@ -45,7 +47,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public InvoiceDto listById(int id) {
         Invoice factura = invoiceRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
+                .orElseThrow(() -> new ResourceNotFoundException(PRODUCTO_NO_ENCONTRADO));
 
         return InvoiceDto.builder()
                 .id(factura.getId())
@@ -68,7 +70,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         //validar si existe el cliente
         Client cliente = clientRepository.findById(invoice.getClientId())
-                .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NO_ENCONTRADO));
 
         //validar cada item
         double total = invoice.getItems().stream().mapToDouble(item -> {
@@ -83,7 +85,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
             //buscar cada producto
             Product producto = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new ResourceNotFoundException(REGISTRO_NO_ENCONTRADO));
+                    .orElseThrow(() -> new ResourceNotFoundException(PRODUCTO_NO_ENCONTRADO));
 
             //crear un item con el producto
             Item itemNuevo = Item.builder()
@@ -99,7 +101,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             return item.getUnits() * producto.getPrice();
         }).sum(); // sumar todos los item
 
-        //guardar cada factura
+        //guardar factura
         return invoiceRepository.save(
                 Invoice.builder()
                         .description(invoice.getDescription())
