@@ -74,7 +74,7 @@ class ClientServiceImplTest {
     @Test
     void listById() {
         // given
-        when(clientRepository.findById(1)).thenReturn((Optional.of(client)));
+        Mockito.when(clientRepository.findById(1)).thenReturn((Optional.of(client)));
 
         // when -  action or the behaviour that we are going test
         ClientDto clientDto = clientService.listById(1);

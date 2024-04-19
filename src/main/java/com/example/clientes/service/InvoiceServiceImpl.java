@@ -69,8 +69,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
 
         //validar si existe el cliente
-        Client cliente = clientRepository.findById(invoice.getClientId())
-                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NO_ENCONTRADO));
+        Client cliente = clientRepository.findById(invoice.getClientId()).orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NO_ENCONTRADO));
 
         //validar cada item
         double total = invoice.getItems().stream().mapToDouble(item -> {
