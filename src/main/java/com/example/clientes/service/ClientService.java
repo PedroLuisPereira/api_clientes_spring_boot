@@ -3,6 +3,7 @@ package com.example.clientes.service;
 import com.example.clientes.domain.Client;
 import com.example.clientes.dto.ClientCreateDto;
 import com.example.clientes.dto.ClientDto;
+
 import java.util.List;
 
 public interface ClientService {
@@ -17,7 +18,6 @@ public interface ClientService {
 
     Client update(int id, ClientCreateDto client);
 
-    void delete(int id);
-
+    void destroy(int id);
 
 }

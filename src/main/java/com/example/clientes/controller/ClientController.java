@@ -48,6 +48,6 @@ public class ClientController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable int id) {
-        service.delete(id);
+        service.destroy(id);
     }
 }

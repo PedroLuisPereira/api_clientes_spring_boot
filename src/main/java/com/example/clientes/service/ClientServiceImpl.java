@@ -93,7 +93,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void destroy(int id) {
         repository.deleteById(id);
     }
 
