@@ -37,22 +37,22 @@ public class GlobalExceptionHandler {
     /**
      * ******** Validar campos *************
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
-
-        Map<String, String> errors = new HashMap<>();
-
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-
-        String valor = errors.values().stream().findFirst().orElseGet(null);
-
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), valor, request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
+//
+//        Map<String, String> errors = new HashMap<>();
+//
+//        ex.getBindingResult().getAllErrors().forEach(error -> {
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+//        });
+//
+//        String valor = errors.values().stream().findFirst().orElseGet(null);
+//
+//        ErrorDetails errorDetails = new ErrorDetails(new Date(), valor, request.getDescription(false));
+//        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+//    }
 
 
 }

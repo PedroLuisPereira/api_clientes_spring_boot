@@ -12,10 +12,7 @@ import lombok.*;
 
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@Setter
-@ToString
 @Builder
 public class ClientDto implements Serializable {
 

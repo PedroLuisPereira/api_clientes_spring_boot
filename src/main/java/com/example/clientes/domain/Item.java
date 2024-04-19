@@ -25,8 +25,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
-@ToString
 @Builder
 @Entity
 @Table(name = "items")

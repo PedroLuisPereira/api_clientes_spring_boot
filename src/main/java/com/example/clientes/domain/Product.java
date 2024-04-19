@@ -13,8 +13,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
-@ToString
 @Builder
 @Entity
 @Table(name = "products")

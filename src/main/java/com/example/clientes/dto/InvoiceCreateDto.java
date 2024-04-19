@@ -17,7 +17,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 public class InvoiceCreateDto implements Serializable {
 

@@ -7,6 +7,8 @@ import com.example.clientes.dto.ClientDto;
 import com.example.clientes.dto.InvoiceCreateDto;
 import com.example.clientes.dto.InvoiceDto;
 import com.example.clientes.dto.ItemCreateDto;
+import com.example.clientes.exceptions.BadRequestException;
+import com.example.clientes.exceptions.ResourceNotFoundException;
 import com.example.clientes.repository.ClientRepository;
 import com.example.clientes.repository.InvoiceRepository;
 import com.example.clientes.repository.ProductRepository;
@@ -19,9 +21,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -116,4 +121,119 @@ class InvoiceServiceImplTest {
         Assertions.assertNotNull(invoice);
         Assertions.assertEquals(2000.0, invoice.getTotal());
     }
+
+    @Test
+    void createNoTieneItems() {
+
+        // given - precondition or setup
+        InvoiceCreateDto invoiceCreateDto = InvoiceCreateDto.builder()
+                .clientId(1)
+                .description("Una descripción")
+                .items(new ArrayList<>())
+                .build();
+
+        // when -  action or the behaviour that we are going test
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () ->
+                invoiceService.create(invoiceCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals("Deben existir item", thrown.getMessage());
+    }
+
+    @Test
+    void createClienteNoExiste() {
+
+        // given - precondition or setup
+        InvoiceCreateDto invoiceCreateDto = InvoiceCreateDto.builder()
+                .clientId(1)
+                .description("Una descripción")
+                .items(List.of(
+                        ItemCreateDto.builder().units(2).productId(1).build(),
+                        ItemCreateDto.builder().units(2).productId(2).build()))
+                .build();
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        // when -  action or the behaviour that we are going test
+        ResourceNotFoundException thrown = Assertions.assertThrows(ResourceNotFoundException.class, () ->
+                invoiceService.create(invoiceCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals(CLIENTE_NO_ENCONTRADO, thrown.getMessage());
+        Mockito.verify(clientRepository, times(1)).findById(anyInt());
+    }
+
+    @Test
+    void createUnitsMayorQueCero() {
+
+        // given - precondition or setup
+        InvoiceCreateDto invoiceCreateDto = InvoiceCreateDto.builder()
+                .clientId(1)
+                .description("Una descripción")
+                .items(List.of(
+                        ItemCreateDto.builder().units(0).productId(1).build(),
+                        ItemCreateDto.builder().units(0).productId(2).build()))
+                .build();
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(Optional.of(client));
+
+        // when -  action or the behaviour that we are going test
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () ->
+                invoiceService.create(invoiceCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals("El valor de units debe ser mayor que cero", thrown.getMessage());
+        Mockito.verify(clientRepository, times(1)).findById(anyInt());
+    }
+
+    @Test
+    void createProductIdMayorQueCero() {
+
+        // given - precondition or setup
+        InvoiceCreateDto invoiceCreateDto = InvoiceCreateDto.builder()
+                .clientId(1)
+                .description("Una descripción")
+                .items(List.of(
+                        ItemCreateDto.builder().units(2).productId(0).build(),
+                        ItemCreateDto.builder().units(3).productId(1).build()))
+                .build();
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(Optional.of(client));
+
+        // when -  action or the behaviour that we are going test
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () ->
+                invoiceService.create(invoiceCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals("El valor de productId debe ser mayor que cero", thrown.getMessage());
+        Mockito.verify(clientRepository, times(1)).findById(anyInt());
+    }
+
+    @Test
+    void createProductIdNoExiste() {
+
+        // given - precondition or setup
+        InvoiceCreateDto invoiceCreateDto = InvoiceCreateDto.builder()
+                .clientId(1)
+                .description("Una descripción")
+                .items(List.of(
+                        ItemCreateDto.builder().units(2).productId(1).build(),
+                        ItemCreateDto.builder().units(3).productId(1).build()))
+                .build();
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(Optional.of(client));
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        // when -  action or the behaviour that we are going test
+        ResourceNotFoundException thrown = Assertions.assertThrows(ResourceNotFoundException.class, () ->
+                invoiceService.create(invoiceCreateDto)
+        );
+
+        // then
+        Assertions.assertEquals(PRODUCTO_NO_ENCONTRADO, thrown.getMessage());
+        Mockito.verify(clientRepository, times(1)).findById(anyInt());
+        Mockito.verify(productRepository, times(1)).findById(anyInt());
+    }
+
+
 }

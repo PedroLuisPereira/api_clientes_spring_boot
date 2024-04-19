@@ -22,14 +22,14 @@ implementarla. La podremos crear dentro del paquete controllers.
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(BadRequestException.class)
-    protected ResponseEntity<Object> handleBadRequest(RuntimeException runtimeException, WebRequest webRequest) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", runtimeException.getMessage());
-        body.put("Error", HttpStatus.BAD_REQUEST.toString());
-
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler(BadRequestException.class)
+//    protected ResponseEntity<Object> handleBadRequest(RuntimeException runtimeException, WebRequest webRequest) {
+//
+//        Map<String, Object> body = new LinkedHashMap<>();
+//        body.put("timestamp", LocalDateTime.now());
+//        body.put("message", runtimeException.getMessage());
+//        body.put("Error", HttpStatus.BAD_REQUEST.toString());
+//
+//        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+//    }
 }

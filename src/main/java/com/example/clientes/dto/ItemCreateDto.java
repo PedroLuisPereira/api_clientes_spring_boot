@@ -13,7 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
 public class ItemCreateDto implements Serializable {
 
