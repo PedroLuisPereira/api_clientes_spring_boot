@@ -3,7 +3,6 @@ package com.example.clientes.service;
 import com.example.clientes.domain.Client;
 import com.example.clientes.domain.Invoice;
 import com.example.clientes.domain.Product;
-import com.example.clientes.dto.ClientDto;
 import com.example.clientes.dto.InvoiceCreateDto;
 import com.example.clientes.dto.InvoiceDto;
 import com.example.clientes.dto.ItemCreateDto;
@@ -27,7 +26,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+
 
 @ExtendWith(MockitoExtension.class)
 class InvoiceServiceImplTest {

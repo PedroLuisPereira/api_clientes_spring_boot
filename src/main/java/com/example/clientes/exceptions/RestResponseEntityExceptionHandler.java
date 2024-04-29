@@ -1,16 +1,16 @@
 package com.example.clientes.exceptions;
 
-import com.example.clientes.exceptions.BadRequestException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+//import com.example.clientes.exceptions.BadRequestException;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
+//import org.springframework.web.bind.annotation.ExceptionHandler;
+//import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.Map;
+//import java.time.LocalDateTime;
+//import java.util.LinkedHashMap;
+//import java.util.Map;
 
 /*
  *Spring propone la creación de una clase Java con el propósito exclusivo de manejar el

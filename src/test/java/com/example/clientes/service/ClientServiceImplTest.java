@@ -1,13 +1,11 @@
 package com.example.clientes.service;
 
 import com.example.clientes.domain.Client;
-import com.example.clientes.domain.Employee;
 import com.example.clientes.dto.ClientCreateDto;
 import com.example.clientes.dto.ClientDto;
 import com.example.clientes.exceptions.BadRequestException;
 import com.example.clientes.exceptions.ResourceNotFoundException;
 import com.example.clientes.repository.ClientRepository;
-import com.example.clientes.repository.EmployeeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,11 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
